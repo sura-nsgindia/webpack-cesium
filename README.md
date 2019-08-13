@@ -1,2 +1,2 @@
 # webpack-cesium
-boiler plate for cesium with webpack
+boilerplate for cesium with webpack
