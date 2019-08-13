@@ -1,0 +1,6 @@
+let appData = {
+    defaultAccessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4MzNhOGExNS0wMzIwLTRiMjAtOTQ2ZC1hYzllNzY0ZTA0YmMiLCJpZCI6MTQxMTQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NjQ3NDYxOTd9.c9MVANzoTALm2aLQRJkrVG9JXY9snLJqjDwP_HUAJyA",
+
+}
+
+module.exports = appData;
