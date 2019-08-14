@@ -1,5 +1,4 @@
 import {NSG3DMap} from './js/map';
-import Cesium from 'cesium/Cesium';
 import {loadData} from './js/TestClassification';
 
 require('./css/main.css');
