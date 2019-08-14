@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopywebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // The path to the CesiumJS source code
 const cesiumSource = 'node_modules/cesium/Source';
@@ -11,6 +12,7 @@ const cesiumWorkers = '../Build/Cesium/Workers';
 const cesiumThirdParty = '../Build/Cesium/ThirdParty';
 
 module.exports = {
+    mode: 'production', // default
     context: __dirname,
     entry: {
         app: './src/index.js'
@@ -62,6 +64,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css',
@@ -92,16 +95,12 @@ module.exports = {
         minimize: true,
         splitChunks: {
             cacheGroups: {
-                vendors: {
-                    name: 'cesium',
+                vendor: {
+                    //test: /[\\/]node_modules[\\/](cesium)[\\/]/, //for specific module separation ref: https://webpack.js.org/plugins/split-chunks-plugin/
+                    test: /[\\/]node_modules[\\/]/,         //for all used node modules
+                    name: 'dependencies',
                     chunks: 'all',
-                    reuseExistingChunk: true,
-                    priority: 1,
-                    enforce: true,
-                    test(module, chunks) {
-                        return (module.context && module.context.indexOf('cesium') !== -1);
-                    }
-                }
+                  }
             }
         }
     }

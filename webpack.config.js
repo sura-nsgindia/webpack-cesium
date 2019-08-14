@@ -11,6 +11,8 @@ const cesiumThirdParty = '../Build/Cesium/ThirdParty';
 const applicationData = 'src/data'
 
 module.exports = {
+    mode: 'development',
+    //devtool: 'eval',
     context: __dirname,
     entry: {
         app: './src/index.js'
@@ -39,7 +41,7 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
-            use: [ 'style-loader', 'css-loader' ]
+            use: ['style-loader', 'css-loader']
         }, {
             test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
             use: ['url-loader']
@@ -75,29 +77,19 @@ module.exports = {
             // Define relative base path in cesium for loading assets
             CESIUM_BASE_URL: JSON.stringify('')
         }),
-        /*new webpack.optimize.CommonsChunkPlugin({
-            name: 'cesium',
-            minChunks: module => module.context && module.context.indexOf('cesium') !== -1
-        }),
-        new webpack.optimize.UglifyJsPlugin()*/
+        
     ],
     devServer: {
         contentBase: path.join(__dirname, "dist")
     },
-    devtool: 'eval',
     optimization: {
         minimize: false,
         splitChunks: {
             cacheGroups: {
-                vendors: {
-                    name: 'cesium',
-                    chunks: 'all',
-                    reuseExistingChunk: true,
-                    priority: 1,
-                    enforce: true,
-                    test(module, chunks) {
-                        return (module.context && module.context.indexOf('cesium') !== -1);
-                    }
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'dependencies',
+                    chunks: 'all'
                 }
             }
         }
