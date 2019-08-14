@@ -1,22 +1,21 @@
-class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
-    }
-    // Getter
-    get area() {
-        return this.calcArea();
-    }
-    // Method
-    calcArea() {
-        return this.height * this.width;
-    }
-}
 
-class Point {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+//import Cesium from 'cesium/Cesium';
+import appData from './appConfig';
+var Cesium = require('cesium/Cesium');
+
+let viewer = null;
+
+class NSG3DMap {
+    
+    constructor(container, options) {
+        
+        Cesium.Ion.defaultAccessToken = appData.defaultAccessToken;
+
+        viewer = new Cesium.Viewer(container, options);
+    }
+
+    getView(){
+        return viewer;
     }
 
     static distance(a, b) {
@@ -27,4 +26,4 @@ class Point {
     }
 }
 
-export { Rectangle, Point };
+export {NSG3DMap};

@@ -3,12 +3,12 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopywebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // The path to the CesiumJS source code
 const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 const cesiumThirdParty = '../Build/Cesium/ThirdParty';
-const applicationData = 'src/data'
 
 module.exports = {
     context: __dirname,
@@ -39,7 +39,7 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
-            use: [ 'style-loader', 'css-loader' ]
+            use: [MiniCssExtractPlugin.loader, 'css-loader']
         }, {
             test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
             use: ['url-loader']
@@ -62,11 +62,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+        }),
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
         // Copy Cesium Assets, Widgets, and Workers to a static directory
-        new CopywebpackPlugin([{ from: path.join(applicationData, ''), to: 'data' }]),
         new CopywebpackPlugin([{ from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' }]),
         new CopywebpackPlugin([{ from: path.join(cesiumSource, cesiumThirdParty), to: 'ThirdParty' }]),
         new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Assets'), to: 'Assets' }]),
@@ -84,9 +87,9 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, "dist")
     },
-    devtool: 'eval',
+    //devtool: 'eval',
     optimization: {
-        minimize: false,
+        minimize: true,
         splitChunks: {
             cacheGroups: {
                 vendors: {
